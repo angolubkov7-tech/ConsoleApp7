@@ -13,22 +13,30 @@ namespace Medvedev
 
     class BankAccount
     {
-        
-        private string accountNumber;   // номер счёта 
+        private static int nextAccountNumber = 1;
+
+        private int accountNumber;   // номер счёта 
         private decimal balance;        // баланс 
         private AccountType type;       // тип счёта — ENUM
 
-        
-        public string AccountNumber
+
+         private static int GenerateAccountNumber()
+         {
+            int number = nextAccountNumber;   // взяли текущий
+            nextAccountNumber++;              // увеличили для следующего
+            return number;                     // вернули уникальный
+         }
+
+        public BankAccount()
+        {
+            accountNumber = GenerateAccountNumber();
+        }
+
+        public int AccountNumber
         {
             get { return accountNumber; }
-            set
-            {
-                if (string.IsNullOrWhiteSpace(value))
-                    throw new ArgumentException("Номер счёта не может быть пустым");
-                accountNumber = value;
-            }
         }
+
 
         public decimal Balance
         {
@@ -49,8 +57,7 @@ namespace Medvedev
 
         public void Access()
         {
-            Console.Write("Введите номер банковского счёта: ");
-            AccountNumber = Console.ReadLine();
+            
 
             Console.Write("Введите баланс: ");
             decimal b = decimal.Parse(Console.ReadLine());
@@ -99,13 +106,18 @@ namespace Medvedev
     {
         public static void Main(string[] args)
         {
-            BankAccount bank = new BankAccount();
-
-            bank.Access();       // заполнение
-            bank.Conclusion();   // вывод
+            BankAccount bank1 = new BankAccount();
+            Console.WriteLine("--- Счёт № 1 ---");
+            bank1.Access();
+            bank1.Conclusion();
+            Console.WriteLine("Через ToString(): " + bank1);
 
             Console.WriteLine();
-            Console.WriteLine("Через ToString(): " + bank);
+            BankAccount bank2 = new BankAccount();
+            Console.WriteLine("--- Счёт № 2 ---");
+            bank2.Access();
+            bank2.Conclusion();
+            Console.WriteLine("Через ToString(): " + bank2);
         }
     }
 }
