@@ -55,20 +55,24 @@ namespace Medvedev
             set { type = value; }
         }
 
+
+
         public void Access()
         {
             
 
             Console.Write("Введите баланс: ");
-            decimal b = decimal.Parse(Console.ReadLine());
+            decimal b;
+            while(!decimal.TryParse(Console.ReadLine(), out b) || b < 0);//если ошибка в формате
+                Console.Write("Некоректно повторите");
             
             Balance = b;
 
             Console.WriteLine("Выберите тип счёта:");
-            Console.WriteLine("  1 — депозитный");
-            Console.WriteLine("  2 — кредитный");
-            Console.WriteLine("  3 — расчётный");
-            Console.WriteLine("  4 — сберегательный");
+            Console.WriteLine("1 — депозитный");
+            Console.WriteLine("2 — кредитный");
+            Console.WriteLine("3 — расчётный");
+            Console.WriteLine("4 — сберегательный");
             Console.Write("Ваш выбор: ");
 
             int choice = int.Parse(Console.ReadLine());
@@ -78,6 +82,47 @@ namespace Medvedev
             else if (choice == 2) Type = AccountType.Credit;
             else if (choice == 3) Type = AccountType.Settlement;
             else Type = AccountType.Savings;
+
+            Console.WriteLine("Выбирите действием со счетом:");
+            Console.WriteLine("1 - Снять деньги с банковского счета");
+            Console.WriteLine("2 - Пополнить банковский счет");
+            Console.Write("Выш выбор: ");
+            int action;
+            while (!int.TryParse(Console.ReadLine(), out action) || action < 1 || action > 2)
+                Console.Write("Некорректно (1–2), повторите: ");
+
+            if (action == 1) 
+            {
+                Console.Write("Какаю сумму вы хотите снять со счета: ");
+                decimal db = decimal.Parse(Console.ReadLine());
+
+                TakeOff(db);
+            }
+
+            else if (action == 2) 
+            {
+                Console.Write("Какую сумму хотите положить: ");
+                decimal bd = decimal.Parse(Console.ReadLine());
+
+                Put(bd);   
+            }
+
+            
+        }
+
+        private void TakeOff(decimal db)
+        {
+            if (db > balance) { Console.WriteLine($"Недостаточно средст на счету {Type}"); }
+            else
+            {
+                decimal a = balance - db;
+                Balance = a;
+            }
+        }
+
+        private void Put(decimal bd)
+        {
+            Balance = bd + balance;
         }
 
         public void Conclusion()
