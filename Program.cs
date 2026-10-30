@@ -94,7 +94,7 @@ namespace Medvedev
             Console.WriteLine($"Автор - {author}");
             Console.WriteLine($"Время - {sentime::HH::mm::ss}");
             Console.WriteLine($"Статус - {status}");
-            Console.WriteLine($"В избранном? - {(isFavorite ? "да", "нет")}");
+            Console.WriteLine($"В избранном? - {(isFavorite ? "да": "нет")}");
             Console.WriteLine($"Длинна - {GetLength():F1} {GetLengthUnit()}");
         }
 
@@ -124,15 +124,25 @@ namespace Medvedev
         public override string GetMessageType() { return "Текствое"; }
         public override double GetLength() { return text.Length; }
         public override string GetLengthUnit() { return "символов"; }
-    }
 
-    class PhotoMessage : Message
-    {
+        protected override Message CreateCopy(string newAuthor)
+        {
+            return new TextMessage(newAuthor, text);
+        }
 
-    }
-
-    class VoiceMessage : Message
-    {
-
+        //доп метод для подсчета слов
+        public int CountWords()
+        {
+            if (string.IsNullOrWhiteSpace(text)) return 0;
+            string[] parts = text.Split(
+                new char[] { ' ', ',', '.', '!', '?' },
+                StringSplitOptions.RemoveEmptyEntries);
+            return parts.Length;
+        }
+        public bool Contains(string word)
+        {
+            if (text == null) return false;
+            return text.IndexOf(word, StringComparison.OrdinalIgnoreCase) >= 0;
+        }
     }
 }
