@@ -277,7 +277,21 @@ namespace Medvedev
                 Console.WriteLine();
             }
 
+            //Демонстрация методов прочитать удалить в избранное
+            chat[0].Read();
+            chat[1].SaveToFavorites();
+            chat[2].Read();
+            Console.WriteLine();
 
+            Console.WriteLine("Пересылвем сообщение:");
+            Message forwarded = chat[0].Forvard("Новый получатель");
+            Console.Write("Пересланная копия: ");
+            forwarded.PrintInfo();
+            Console.WriteLine();
+
+            Console.WriteLine("Удаление");
+            chat[3].Delete();
+            chat[3].Read(); //Попытка прочитать удаленное
         }
     }
 }
