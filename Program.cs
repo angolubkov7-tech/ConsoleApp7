@@ -131,20 +131,7 @@ namespace Medvedev
             return new TextMessage(newAuthor, text);
         }
 
-        //доп метод для подсчета слов
-        //public int CountWords()
-        //{
-        //    if (string.IsNullOrWhiteSpace(text)) return 0;
-        //    string[] parts = text.Split(
-        //        new char[] { ' ', ',', '.', '!', '?' },
-        //        StringSplitOptions.RemoveEmptyEntries);
-        //    return parts.Length;
-        //}
-        //public bool Contains(string word)
-        //{
-        //    if (text == null) return false;
-        //    return text.IndexOf(word, StringComparison.OrdinalIgnoreCase) >= 0;
-        //}
+        
     }
 
     //наслдник 2 фото
